@@ -1,0 +1,9 @@
+# Ignoriere alle Dateien über 100 MB
+*.mp4
+*.zip
+
+# Ignoriere Verzeichnisse:
+backup/
+chroma/
+models/
+result/
