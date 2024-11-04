@@ -1,6 +1,7 @@
 # Ignoriere alle Dateien vom Typ:
 *.mp4
 *.zip
+*.env
 
 # Ignoriere Verzeichnisse:
 backup/
