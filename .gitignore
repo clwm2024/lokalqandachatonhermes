@@ -1,4 +1,4 @@
-# Ignoriere alle Dateien über 100 MB
+# Ignoriere alle Dateien vom Typ:
 *.mp4
 *.zip
 
