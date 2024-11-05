@@ -1,5 +1,5 @@
 # Ausführen von Frage-Antwort an eigene PDF Dokumente
-**Stand:** 01.11.2024 <br>
+**Stand:** 05.11.2024 <br>
 **Autor:** Hans-Jörg Stark <br>
 **Conda-Environment:** `pdfchatter`
 
