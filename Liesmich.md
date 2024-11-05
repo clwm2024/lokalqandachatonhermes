@@ -1,7 +1,7 @@
 # Ausführen von Frage-Antwort an eigene PDF Dokumente
 **Stand:** 01.11.2024 <br>
 **Autor:** Hans-Jörg Stark <br>
-**Conda-Environment:** `langchanin_rag`
+**Conda-Environment:** `pdfchatter`
 
 
 ### 1. INSTALLATION
