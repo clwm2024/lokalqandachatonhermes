@@ -37,6 +37,12 @@ CHROMA_PATH = "chroma"
 # Angepasster Pfad zu deinen deutschen Dokumenten
 DATA_PATH = "data/german_docs"
 
+
+# Funktion zur Textlänge zu beschränken (nur wenn sie noch nicht existiert)
+def limit_text_length(text, max_length=512):
+    return text[:max_length] if len(text) > max_length else text
+
+
 # Funktion zur Datenbankerstellung (nur wenn sie noch nicht existiert)
 def generate_data_store():
     # Überprüfe, ob die Datenbank bereits existiert
@@ -174,9 +180,13 @@ def main():
                 else:
 
                     context_text = "\n\n---\n\n".join([doc.page_content for doc, _score in results])
+                    context_text_unformated = results[0][0].page_content
+                    context_text_unformated = limit_text_length(context_text_unformated,max_length=512)
                     prompt_template = ChatPromptTemplate.from_template(PROMPT_TEMPLATE)
                     prompt = prompt_template.format(context=context_text, question=query)
                     print(prompt)
+                    print(f"Context: {context_text_unformated} - Länge: {len(context_text_unformated)}")
+                    print(f"Typ Context: {type(context_text_unformated)}")
 
                     ##### MODELLWAHL
                     #model = ChatOpenAI()
@@ -185,7 +195,7 @@ def main():
                         response_text = get_response_from_openai(prompt)
                     else:
                         context = 'Beantworte die Frage anhand des obenstehenden Kontexts zur Projektmanagementmethode HERMES der Schweizer Bundesverwaltung.'
-                        response_text = get_response_from_local_model(prompt,context)
+                        response_text = get_response_from_local_model(prompt,context_text_unformated)
 
                     print(f"********* {response_text} ***********")
                     sources = [doc.metadata.get("source", None) for doc, _score in results]
@@ -199,10 +209,13 @@ def main():
                     if check_text_start(response_text,noMatchText):
                         aiAnswer = f"Tut mir leid, aber ich kann die Frage '{query}' nicht beantworten.\nÄndere bitte die Frage und versuche es erneut."
                     else:
-                        aiAnswer = f"{response_text}\n\nQuellen: {sources}"
+                        aiAnswer = f"{response_text}\n\nQuellen:: {sources}"
 
                     finalResponse = f"{aiAnswer}"
                     st.write(finalResponse)
+                    #st.write(f"Typ: {type(context_text)}")
+                    #st.write(f"Kontext: \n\n{context_text_unformated}")
+                    #st.write(f"Results: \n\n{results}")
                     return
         else:
             st.write("Bitte gib eine Frage ein.")

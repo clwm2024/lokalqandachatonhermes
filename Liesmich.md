@@ -3,18 +3,47 @@
 **Autor:** Hans-Jörg Stark <br>
 **Conda-Environment:** `langchanin_rag`
 
-## Benötigte Module
-Die benötigten Module sind in der Datei `requirements20241101.txt` aufgeführt und können im entsprechenden Conda Environment, das neu erstellt wurde mittels `conda create -n pdfchatter` mit dem Befehl `pip install -r requirements20241101.txt` installiert werden.
 
-## Erstellung der Datenbank 
+### 1. INSTALLATION
+Vorbereitung - im Terminal eingeben:
+<pre><code>
+cd /Users/hansjoerg.stark/development/Python/lokalqandachatonhermes
+</code></pre>
+
+NEXT TRY - Works with Streamlit HERMES OpenAI
+<pre><code>
+conda create --name pdfchatter python=3.10
+conda activate pdfchatter
+conda install onnxruntime \-c conda\-forge
+pip install \-r requirementsQandAWithOpenAIandLocally.txt
+</code></pre>
+
+<pre><code>
+conda activate pdfchatter
+streamlit run _runWithStreamlitExtendedHERMES.py
+</code></pre>
+Testfrage: *Welche Rollen kennt HERMES?* 
+
+
+Uninstall / Redo
+<pre><code>
+conda deactivate
+conda env remove \--name pdfchatter
+</code></pre>
+
+
+## 2. Benötigte Module
+Die benötigten Module sind in der Datei `environmentlangchain_rag_py310.yml` aufgeführt. <br> **ACHTUNG** Der Befehl `conda env create --name pdfchatter --file environment.yml` erstellt zwar das neue Environment *pdfchatter*, dieses weist aber Inkonsistenzen in sich auf und darum NICHT so installieren!
+
+## 3. Erstellung der Datenbank 
 Die Datenbank wird erstellt, indem alle PDF Dokumente in Chunks geteilt werden.
 Dies geschieht mit dem Skript `create_database_modified.py`. Im Skript ist auf Zeile 24 der Pfad zu den PDF Dokumenten anzugeben. Wird ein anderes Format verwendet, ist dies auf Zeile 36 zu ändern.
 
 In der Datei `settings.env` ist der API Key für die Verwendung von OpenAI anzugeben. (Ist für die Erstellung der lokalen Datenbank NICHT nötig).
 
-## Modell-Finetuning
+## 4. Modell-Finetuning
 
-### Erstellung einer Frage-Antwort Datei für das Finetuning
+### 4.1 Erstellung einer Frage-Antwort Datei für das Finetuning
 Mit Hilfe des Skripts `_createQuestion-Answer-sets_onHermes2.py` kann eine Datei im JSON Format erstellt werden, welche Pro Element 3 Unterelemente enthält: Kontext, Frage, Antwort. Diese Tripel dienen zum anschliessenden Finetuning. Diese Triplets werden in der Datei `questions_answers.json` gespeichert. Um das Skript erfolgreich ausführen zu können, ist ein separates Conda Environment mittels `environmentCreateQAFile4Finetuning.yaml` zu erstellen: `conda env create -f environmentCreateQAFile4Finetuning.yaml`. <br> 
 Der Inhalt der Datei lautet:<br>
 <pre><code>
@@ -71,7 +100,7 @@ prefix: /opt/anaconda3/envs/openai1.0
 </code></pre>
 
 
-### Modell-Tuning 
+### 4.2 Modell-Tuning 
 Es gibt eine Datei mit Kontext, Fragen und Antworten: `questions_answers.json`. Diese wurde via OpenAI erstellt und kann zum Finetuning des Modells verwendet werden. Dazu ist ein separates Environment mit der Datei `environmentTrainModelElectra.yaml` zu erstellen: `conda env create -f environmentTrainModelElectra.yaml`. Der Inhalt der Datei lautet:<br>
 <pre><code>
 name: trainModelElectra
@@ -99,12 +128,20 @@ Anschliessend kann für das Finetuning die Datei `_trainGermanModelWithQandAFile
 Als Ergebnis liegt ein neues Modell vor im Verzeichnis `models/trainedGermanQAElectra` und kann anschliessend im Skript 
 
 
-## Applikation starten
+## 5. Applikation starten
 ### 1. Im Browser mit Streamlit
-Die Anwendung kann in der Konsole mit dem Befehl `streamlit run _runWithStreamlitExtendedHERMES.py` gestartet werden. Im Browser wird die Anwendung geöffnet und Fragen können gestellt werden. Die Abfragen gehen über die <u>*OpenAI API*</u> - also über das Internet!
+Die Anwendung kann in der Konsole mit dem Befehl `streamlit run _runWithStreamlitExtendedHERMES_labor.py` gestartet werden. Im Browser wird die Anwendung geöffnet und Fragen können gestellt werden. Die Abfragen gehen über die <u>*OpenAI API*</u> - also über das Internet!
 
 ### 2. Via Konsole
 Im Terminal kann die Frage wie folgt gestellt werden: `python query_data_modified.py <FRAGE>` also konkret: `python query_data_modified.py "Wo kommt HERMES zum Einsatz?"`
+
+
+------
+
+
+
+
+
 
 
 
