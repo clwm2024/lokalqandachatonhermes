@@ -10,7 +10,7 @@ Vorbereitung - im Terminal eingeben:
 cd /Users/hansjoerg.stark/development/Python/lokalqandachatonhermes
 </code></pre>
 
-NEXT TRY - Works with Streamlit HERMES OpenAI
+Einrichtung, die mit Streamlit, OpenAI und lokalen Daten/Modell funktioniert:
 <pre><code>
 conda create --name pdfchatter python=3.10
 conda activate pdfchatter
